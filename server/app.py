@@ -1,8 +1,9 @@
-from flask import Flask, request, Response
+from flask import Flask, request, Response, render_template
 import requests
+from urllib.parse import quote
 
 FUSEKI_SPARQL = "http://localhost:3030/tolkien/sparql"
-BASE = "https://yourkg.org/resource/"  # même base que ton KG
+BASE = "https://yourkg.org/resource/"
 
 app = Flask(__name__)
 
@@ -22,31 +23,94 @@ def sparql_query(query: str, accept: str = "application/sparql-results+json") ->
 
 def wants_turtle() -> bool:
     accept = (request.headers.get("Accept") or "").lower()
-    # Si le client demande explicitement du RDF
     return ("text/turtle" in accept) or ("application/x-turtle" in accept) or ("application/n-triples" in accept)
 
 def normalize_id(rid: str) -> str:
-    # normalisation minimale (comme ton KG)
-    rid = (rid or "").strip()
-    rid = rid.replace(" ", "_")
+    rid = (rid or "").strip().replace(" ", "_")
     return rid
+
+def to_local_path(uri: str) -> str:
+    # https://yourkg.org/resource/Elrond -> /resource/Elrond
+    if uri.startswith(BASE):
+        return "/resource/" + uri.split("/resource/")[1]
+    return uri
+
+def parse_bindings(res_json: dict, vars_: list[str]) -> list[dict]:
+    out = []
+    for row in res_json.get("results", {}).get("bindings", []):
+        item = {}
+        for v in vars_:
+            if v in row:
+                item[v] = row[v]["value"]
+        out.append(item)
+    return out
 
 @app.get("/")
 def home():
-    return """
-    <h2>Tolkien KG Linked Data Interface</h2>
-    <p>Try: <a href="/resource/Elrond">/resource/Elrond</a></p>
-    <p>Or Turtle: <code>curl -H "Accept: text/turtle" http://localhost:5000/resource/Elrond</code></p>
-    """
+    return render_template("index.html")
+
+@app.get("/list/<type_name>")
+def list_entities(type_name: str):
+    # On supporte Person, Place, Organization, Event
+    allowed = {"Person", "Place", "Organization", "Event"}
+    if type_name not in allowed:
+        return Response("Unknown type. Use Person|Place|Organization|Event", status=400)
+
+    q = PREFIXES + f"""
+SELECT ?s ?label WHERE {{
+  ?s a schema:{type_name} ;
+     rdfs:label ?label .
+  FILTER(lang(?label) = "en")
+}}
+ORDER BY ?label
+LIMIT 200
+"""
+    r = sparql_query(q)
+    if r.status_code != 200:
+        return Response(r.text, status=503, mimetype="text/plain")
+
+    items = parse_bindings(r.json(), ["s", "label"])
+    # Convert to local /resource links
+    for it in items:
+        it["href"] = to_local_path(it["s"])
+
+    return render_template("list.html", type_name=type_name, items=items)
+
+@app.get("/search")
+def search():
+    qtext = (request.args.get("q") or "").strip()
+    if not qtext:
+        return render_template("search.html", q="", items=[])
+
+    # Sécuriser la chaîne AVANT le f-string
+    safe_q = qtext.replace('"', '\\"')
+
+    q = PREFIXES + f"""
+SELECT ?s ?label WHERE {{
+  ?s rdfs:label ?label .
+  FILTER(lang(?label) = "en")
+  FILTER(CONTAINS(LCASE(STR(?label)), LCASE("{safe_q}")))
+}}
+ORDER BY ?label
+LIMIT 200
+"""
+    r = sparql_query(q)
+    if r.status_code != 200:
+        return Response(r.text, status=503, mimetype="text/plain")
+
+    items = parse_bindings(r.json(), ["s", "label"])
+    for it in items:
+        it["href"] = to_local_path(it["s"])
+
+    return render_template("search.html", q=qtext, items=items)
+
 
 @app.get("/resource/<path:rid>")
 def resource(rid: str):
     rid = normalize_id(rid)
-    uri = f"{BASE}{rid}"
+    uri = f"{BASE}{quote(rid)}"
 
-    # ---------------- TURTLE (CONSTRUCT) ----------------
     if wants_turtle():
-        # Robuste: récupère triples du default graph OU de n'importe quel named graph
         construct = PREFIXES + f"""
 CONSTRUCT {{
   <{uri}> ?p ?o .
@@ -67,141 +131,69 @@ WHERE {{
         r = sparql_query(construct, accept="text/turtle")
         return Response(r.text, status=r.status_code, mimetype="text/turtle")
 
-    # ---------------- HTML (SELECT) ----------------
-    # Label : default graph + named graphs
+    # HTML view
     q_label = PREFIXES + f"""
 SELECT ?label WHERE {{
-  {{
-    <{uri}> rdfs:label ?label .
-  }} UNION {{
-    GRAPH ?g {{ <{uri}> rdfs:label ?label . }}
-  }}
+  {{ <{uri}> rdfs:label ?label . }}
+  UNION
+  {{ GRAPH ?g {{ <{uri}> rdfs:label ?label . }} }}
 }}
 LIMIT 1
 """
-
-    # Outgoing : default graph + named graphs
     q_out = PREFIXES + f"""
 SELECT ?p ?o WHERE {{
-  {{
-    <{uri}> ?p ?o .
-  }} UNION {{
-    GRAPH ?g {{ <{uri}> ?p ?o . }}
-  }}
+  {{ <{uri}> ?p ?o . }}
+  UNION
+  {{ GRAPH ?g {{ <{uri}> ?p ?o . }} }}
 }}
 ORDER BY ?p
-LIMIT 200
+LIMIT 300
 """
-
-    # Incoming : default graph + named graphs
     q_in = PREFIXES + f"""
 SELECT ?s ?p WHERE {{
-  {{
-    ?s ?p <{uri}> .
-  }} UNION {{
-    GRAPH ?g {{ ?s ?p <{uri}> . }}
-  }}
+  {{ ?s ?p <{uri}> . }}
+  UNION
+  {{ GRAPH ?g {{ ?s ?p <{uri}> . }} }}
 }}
 ORDER BY ?p ?s
-LIMIT 200
+LIMIT 300
 """
-
     label_res = sparql_query(q_label)
     out_res = sparql_query(q_out)
     in_res = sparql_query(q_in)
 
-    # si Fuseki répond pas / erreur
     if label_res.status_code != 200:
         return Response(label_res.text, status=503, mimetype="text/plain")
-    if out_res.status_code != 200:
-        return Response(out_res.text, status=503, mimetype="text/plain")
-    if in_res.status_code != 200:
-        return Response(in_res.text, status=503, mimetype="text/plain")
 
-    label_json = label_res.json()
-    out_json = out_res.json()
-    in_json = in_res.json()
-
-    label = None
+    label = rid.replace("_", " ")
     try:
-        bindings = label_json["results"]["bindings"]
-        if bindings and "label" in bindings[0]:
-            label = bindings[0]["label"]["value"]
+        b = label_res.json()["results"]["bindings"]
+        if b and "label" in b[0]:
+            label = b[0]["label"]["value"]
     except Exception:
-        label = None
-    if not label:
-        label = rid.replace("_", " ")
+        pass
 
-    def fmt_term(b):
-        """Make HTML for a SPARQL JSON binding term"""
-        v = b["value"]
-        t = b["type"]
+    out_json = out_res.json() if out_res.status_code == 200 else {"results": {"bindings": []}}
+    in_json = in_res.json() if in_res.status_code == 200 else {"results": {"bindings": []}}
 
+    def fmt_term(term):
+        v = term["value"]
+        t = term["type"]
         if t == "uri":
-            # Link internal resources nicely
             if v.startswith(BASE):
                 local = v.split("/resource/")[1]
                 return f'<a href="/resource/{local}">{local}</a>'
             return f'<a href="{v}">{v}</a>'
-
-        # literal
-        lang = b.get("xml:lang")
-        dt = b.get("datatype")
-        extra = ""
-        if lang:
-            extra = f" <small>@{lang}</small>"
-        elif dt:
-            extra = f" <small>^^{dt}</small>"
+        lang = term.get("xml:lang")
+        dt = term.get("datatype")
+        extra = f" <small>@{lang}</small>" if lang else (f" <small>^^{dt}</small>" if dt else "")
         return f"{v}{extra}"
 
-    outgoing_rows = []
-    for row in out_json.get("results", {}).get("bindings", []):
-        outgoing_rows.append((fmt_term(row["p"]), fmt_term(row["o"])))
+    outgoing = [(fmt_term(row["p"]), fmt_term(row["o"])) for row in out_json["results"]["bindings"]]
+    incoming = [(fmt_term(row["p"]), fmt_term(row["s"])) for row in in_json["results"]["bindings"]]
 
-    incoming_rows = []
-    for row in in_json.get("results", {}).get("bindings", []):
-        incoming_rows.append((fmt_term(row["p"]), fmt_term(row["s"])))
-
-    html = f"""
-<!doctype html>
-<html>
-<head>
-  <meta charset="utf-8"/>
-  <title>{label}</title>
-  <style>
-    body {{ font-family: Arial, sans-serif; margin: 24px; }}
-    code {{ background:#f2f2f2; padding:2px 6px; border-radius:4px; }}
-    table {{ border-collapse: collapse; width: 100%; margin: 12px 0; }}
-    th, td {{ border: 1px solid #ddd; padding: 8px; vertical-align: top; }}
-    th {{ background: #f7f7f7; text-align: left; }}
-    .meta {{ color:#444; }}
-  </style>
-</head>
-<body>
-  <h2>{label}</h2>
-  <p class="meta"><b>URI:</b> <code>{uri}</code></p>
-  <p class="meta">
-    <a href="/resource/{rid}">HTML</a> |
-    <span>Turtle via Accept header</span>
-    &nbsp; (try: <code>curl -H "Accept: text/turtle" http://localhost:5000/resource/{rid}</code>)
-  </p>
-
-  <h3>Properties (outgoing)</h3>
-  <table>
-    <tr><th>Predicate</th><th>Object</th></tr>
-    {''.join([f"<tr><td>{p}</td><td>{o}</td></tr>" for p,o in outgoing_rows]) or "<tr><td colspan=2>No data</td></tr>"}
-  </table>
-
-  <h3>Incoming properties</h3>
-  <table>
-    <tr><th>Predicate</th><th>Subject</th></tr>
-    {''.join([f"<tr><td>{p}</td><td>{s}</td></tr>" for p,s in incoming_rows]) or "<tr><td colspan=2>No data</td></tr>"}
-  </table>
-</body>
-</html>
-"""
+    html = render_template("resource.html", label=label, rid=rid, uri=uri, outgoing=outgoing, incoming=incoming)
     return Response(html, mimetype="text/html")
 
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=5000, debug=True)
-
