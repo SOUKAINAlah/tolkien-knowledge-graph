@@ -1,0 +1,41 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <https://schema.org/> .
+
+<https://yourkg.org/resource/Elrond> a schema:Person ;
+    rdfs:label "Elrond"@en ;
+    schema:additionalType <https://yourkg.org/resource/Half-elven>,
+        "Half-elf"@en ;
+    schema:image "Tatyafinwe - Portrait of Elrond.jpg"@en ;
+    schema:jobTitle "Lord of Rivendell"@en ;
+    schema:location <https://yourkg.org/resource/Aman>,
+        <https://yourkg.org/resource/Lindon>,
+        <https://yourkg.org/resource/Mouths_of_Sirion>,
+        <https://yourkg.org/resource/Rivendell> ;
+    schema:memberOf <https://yourkg.org/resource/White_Council> ;
+    schema:name "Elrond"@en ;
+    schema:url <https://tolkiengateway.net/wiki/Elrond> .
+
+<https://yourkg.org/resource/Aman> a schema:Place ;
+    rdfs:label "Aman"@en ;
+    schema:url <https://tolkiengateway.net/wiki/Aman> .
+
+<https://yourkg.org/resource/Half-elven> a schema:Thing ;
+    rdfs:label "Half-elven"@en ;
+    schema:url <https://tolkiengateway.net/wiki/Half-elven> .
+
+<https://yourkg.org/resource/Lindon> a schema:Place ;
+    rdfs:label "Lindon"@en ;
+    schema:url <https://tolkiengateway.net/wiki/Lindon> .
+
+<https://yourkg.org/resource/Mouths_of_Sirion> a schema:Place ;
+    rdfs:label "Mouths of Sirion"@en ;
+    schema:url <https://tolkiengateway.net/wiki/Mouths_of_Sirion> .
+
+<https://yourkg.org/resource/Rivendell> a schema:Place ;
+    rdfs:label "Rivendell"@en ;
+    schema:url <https://tolkiengateway.net/wiki/Rivendell> .
+
+<https://yourkg.org/resource/White_Council> a schema:Organization ;
+    rdfs:label "White Council"@en ;
+    schema:url <https://tolkiengateway.net/wiki/White_Council> .
+

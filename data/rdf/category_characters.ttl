@@ -1,0 +1,229 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <https://schema.org/> .
+
+<https://yourkg.org/resource/Adalbert_Bolger> a schema:Person ;
+    rdfs:label "Adalbert Bolger"@en ;
+    schema:additionalType <https://yourkg.org/resource/Hobbits>,
+        "Hobbit"@en ;
+    schema:image ""@en ;
+    schema:jobTitle ""@en ;
+    schema:location <https://yourkg.org/resource/Budgeford> ;
+    schema:memberOf ""@en ;
+    schema:name "Adalbert Bolger"@en ;
+    schema:url <https://tolkiengateway.net/wiki/Adalbert_Bolger> .
+
+<https://yourkg.org/resource/Adaldrida_Bolger> a schema:Person ;
+    rdfs:label "Adaldrida Bolger"@en ;
+    schema:additionalType <https://yourkg.org/resource/Hobbits>,
+        "Hobbit"@en ;
+    schema:image ""@en ;
+    schema:jobTitle ""@en ;
+    schema:location <https://yourkg.org/resource/Buckland> ;
+    schema:memberOf ""@en ;
+    schema:name "Adaldrida Bolger"@en ;
+    schema:url <https://tolkiengateway.net/wiki/Adaldrida_Bolger> .
+
+<https://yourkg.org/resource/Adalgar_Bolger> a schema:Person ;
+    rdfs:label "Adalgar Bolger"@en ;
+    schema:additionalType <https://yourkg.org/resource/Hobbits>,
+        "Hobbit"@en ;
+    schema:image ""@en ;
+    schema:jobTitle ""@en ;
+    schema:location <https://yourkg.org/resource/Budgeford> ;
+    schema:memberOf ""@en ;
+    schema:name "Adalgar Bolger"@en ;
+    schema:url <https://tolkiengateway.net/wiki/Adalgar_Bolger> .
+
+<https://yourkg.org/resource/Adalgrim_Took> a schema:Person ;
+    rdfs:label "Adalgrim Took"@en ;
+    schema:additionalType <https://yourkg.org/resource/Hobbits>,
+        "Hobbit"@en ;
+    schema:image ""@en ;
+    schema:jobTitle ""@en ;
+    schema:location <https://yourkg.org/resource/Great_Smials> ;
+    schema:memberOf ""@en ;
+    schema:name "Adalgrim Took"@en ;
+    schema:url <https://tolkiengateway.net/wiki/Adalgrim_Took> .
+
+<https://yourkg.org/resource/Adam_Hornblower> a schema:Person ;
+    rdfs:label "Adam Hornblower"@en ;
+    schema:additionalType <https://yourkg.org/resource/Hobbits>,
+        "Hobbit"@en ;
+    schema:image ""@en ;
+    schema:jobTitle ""@en ;
+    schema:location <https://yourkg.org/resource/Hobbiton> ;
+    schema:memberOf ""@en ;
+    schema:name "Adam Hornblower"@en ;
+    schema:url <https://tolkiengateway.net/wiki/Adam_Hornblower> .
+
+<https://yourkg.org/resource/Adamanta_Chubb> a schema:Person ;
+    rdfs:label "Adamanta Chubb"@en ;
+    schema:additionalType <https://yourkg.org/resource/Hobbits>,
+        "Hobbit"@en ;
+    schema:image "Miriam Ellis - Adamanta Chubb.jpg"@en ;
+    schema:jobTitle ""@en ;
+    schema:location <https://yourkg.org/resource/Tookland> ;
+    schema:memberOf ""@en ;
+    schema:name "Adamanta Chubb"@en ;
+    schema:url <https://tolkiengateway.net/wiki/Adamanta_Chubb> .
+
+<https://yourkg.org/resource/Adelard_Took> a schema:Person ;
+    rdfs:label "Adelard Took"@en ;
+    schema:additionalType <https://yourkg.org/resource/Hobbits>,
+        "Hobbit"@en ;
+    schema:image "The Lord of the Rings Online - Adelard Took.jpg"@en ;
+    schema:jobTitle ""@en ;
+    schema:memberOf ""@en ;
+    schema:name "Adelard Took"@en ;
+    schema:url <https://tolkiengateway.net/wiki/Adelard_Took> .
+
+<https://yourkg.org/resource/Adrahil> a schema:Person ;
+    rdfs:label "Adrahil"@en ;
+    schema:additionalType <https://yourkg.org/resource/Gondorians>,
+        "Gondorian"@en ;
+    schema:image ""@en ;
+    schema:jobTitle "Prince of Dol Amroth"@en ;
+    schema:location <https://yourkg.org/resource/Princes_of_Dol_Amroth> ;
+    schema:memberOf ""@en ;
+    schema:name "Adrahil"@en ;
+    schema:url <https://tolkiengateway.net/wiki/Adrahil> .
+
+<https://yourkg.org/resource/Adrahil_(Captain_of_the_Left_Wing)> a schema:Person ;
+    rdfs:label "Adrahil (Captain of the Left Wing)"@en ;
+    schema:additionalType <https://yourkg.org/resource/Gondorians>,
+        "Gondorian"@en ;
+    schema:image ""@en ;
+    schema:jobTitle "Captain of the Left Wing<ref name=\"Cirion\">{{UT|Cirion}}</ref>"@en ;
+    schema:location <https://yourkg.org/resource/Gondor> ;
+    schema:memberOf ""@en ;
+    schema:name "Adrahil"@en ;
+    schema:url <https://tolkiengateway.net/wiki/Adrahil_(Captain_of_the_Left_Wing)> .
+
+<https://yourkg.org/resource/Aglahad> a schema:Person ;
+    rdfs:label "Aglahad"@en ;
+    schema:additionalType <https://yourkg.org/resource/Gondorians>,
+        "Gondorian"@en ;
+    schema:image ""@en ;
+    schema:jobTitle "Prince of Dol Amroth"@en ;
+    schema:location <https://yourkg.org/resource/Gondor>,
+        <https://yourkg.org/resource/Princes_of_Dol_Amroth> ;
+    schema:memberOf ""@en ;
+    schema:name "Aglahad"@en ;
+    schema:url <https://tolkiengateway.net/wiki/Aglahad> .
+
+<https://yourkg.org/resource/Aldamir> a schema:Person ;
+    rdfs:label "Aldamir"@en ;
+    schema:additionalType <https://yourkg.org/resource/Gondorians>,
+        "Gondorian"@en ;
+    schema:image "Matěj_Čadil_-_Aldamir_of_Gondor.jpg"@en ;
+    schema:jobTitle "King of Gondor"@en ;
+    schema:location <https://yourkg.org/resource/Gondor>,
+        <https://yourkg.org/resource/Kings_of_Gondor> ;
+    schema:memberOf ""@en ;
+    schema:name "Aldamir"@en ;
+    schema:url <https://tolkiengateway.net/wiki/Aldamir> .
+
+<https://yourkg.org/resource/Aldor> a schema:Person ;
+    rdfs:label "Aldor"@en ;
+    schema:additionalType <https://yourkg.org/resource/Rohirrim>,
+        "Rohir"@en ;
+    schema:image "Lída Holubová - The House of Eorl - Aldor the Old.jpg"@en ;
+    schema:jobTitle "King of Rohan"@en ;
+    schema:location <https://yourkg.org/resource/Kings_of_Rohan>,
+        <https://yourkg.org/resource/Rohan> ;
+    schema:memberOf ""@en ;
+    schema:name "Aldor"@en ;
+    schema:url <https://tolkiengateway.net/wiki/Aldor> .
+
+<https://yourkg.org/resource/Alfrida_of_the_Yale> a schema:Person ;
+    rdfs:label "Alfrida of the Yale"@en ;
+    schema:additionalType <https://yourkg.org/resource/Hobbits>,
+        "Hobbit"@en ;
+    schema:image ""@en ;
+    schema:jobTitle ""@en ;
+    schema:location <https://yourkg.org/resource/Budgeford>,
+        <https://yourkg.org/resource/The_Yale> ;
+    schema:memberOf ""@en ;
+    schema:name "Alfrida"@en ;
+    schema:url <https://tolkiengateway.net/wiki/Alfrida_of_the_Yale> .
+
+<https://yourkg.org/resource/Alphros> a schema:Person ;
+    rdfs:label "Alphros"@en ;
+    schema:additionalType <https://yourkg.org/resource/Gondorians>,
+        "Gondorian"@en ;
+    schema:image ""@en ;
+    schema:jobTitle "Prince of Dol Amroth"@en ;
+    schema:location <https://yourkg.org/resource/Gondor>,
+        <https://yourkg.org/resource/Princes_of_Dol_Amroth> ;
+    schema:memberOf ""@en ;
+    schema:name "Alphros"@en ;
+    schema:url <https://tolkiengateway.net/wiki/Alphros> .
+
+<https://yourkg.org/resource/Amaranth_Brandybuck> a schema:Person ;
+    rdfs:label "Amaranth Brandybuck"@en ;
+    schema:additionalType <https://yourkg.org/resource/Hobbits>,
+        "Hobbit"@en ;
+    schema:image ""@en ;
+    schema:jobTitle ""@en ;
+    schema:location <https://yourkg.org/resource/Buckland> ;
+    schema:memberOf ""@en ;
+    schema:name "Amaranth Brandybuck"@en ;
+    schema:url <https://tolkiengateway.net/wiki/Amaranth_Brandybuck> .
+
+<https://yourkg.org/resource/Amethyst_Hornblower> a schema:Person ;
+    rdfs:label "Amethyst Hornblower"@en ;
+    schema:additionalType <https://yourkg.org/resource/Hobbits>,
+        "Hobbit"@en ;
+    schema:image ""@en ;
+    schema:jobTitle ""@en ;
+    schema:location <https://yourkg.org/resource/Budgeford> ;
+    schema:memberOf ""@en ;
+    schema:name "Amethyst Hornblower"@en ;
+    schema:url <https://tolkiengateway.net/wiki/Amethyst_Hornblower> .
+
+<https://yourkg.org/resource/Amlaith> a schema:Person ;
+    rdfs:label "Amlaith"@en ;
+    schema:additionalType <https://yourkg.org/resource/Arnor>,
+        "Arnorian"@en ;
+    schema:image "ElfinFen - Amlaith, king of Arthedain.jpg"@en ;
+    schema:jobTitle "King of Arthedain"@en ;
+    schema:location <https://yourkg.org/resource/Arthedain>,
+        <https://yourkg.org/resource/King_of_Arthedain> ;
+    schema:memberOf ""@en ;
+    schema:name "Amlaith"@en ;
+    schema:url <https://tolkiengateway.net/wiki/Amlaith> .
+
+<https://yourkg.org/resource/Amroth> a schema:Person ;
+    rdfs:label "Amroth"@en ;
+    schema:additionalType <https://yourkg.org/resource/Sindar>,
+        "Sinda"@en ;
+    schema:image "Olga Kukhtenkova - Amroth.jpg"@en ;
+    schema:jobTitle "King of Lórien"@en ;
+    schema:location <https://yourkg.org/resource/Edhellond>,
+        <https://yourkg.org/resource/King_of_Lrien>,
+        <https://yourkg.org/resource/Lothlrien> ;
+    schema:memberOf ""@en ;
+    schema:name "Amroth"@en ;
+    schema:url <https://tolkiengateway.net/wiki/Amroth> .
+
+<https://yourkg.org/resource/Amrothos> a schema:Person ;
+    rdfs:label "Amrothos"@en ;
+    schema:additionalType <https://yourkg.org/resource/Gondorians>,
+        "Gondorian"@en ;
+    schema:image ""@en ;
+    schema:jobTitle ""@en ;
+    schema:location <https://yourkg.org/resource/Gondor> ;
+    schema:memberOf ""@en ;
+    schema:name "Amrothos"@en ;
+    schema:url <https://tolkiengateway.net/wiki/Amrothos> .
+
+<https://yourkg.org/resource/Anar_(dwarf)> a schema:Person ;
+    rdfs:label "Anar (dwarf)"@en ;
+    schema:additionalType <https://yourkg.org/resource/Dwarves>,
+        "Dwarf"@en ;
+    schema:image ""@en ;
+    schema:jobTitle ""@en ;
+    schema:memberOf ""@en ;
+    schema:name "Anar"@en ;
+    schema:url <https://tolkiengateway.net/wiki/Anar_(dwarf)> .
+

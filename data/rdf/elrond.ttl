@@ -1,0 +1,58 @@
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <https://schema.org/> .
+
+### =====================
+### Elrond (Person)
+### =====================
+
+<https://yourkg.org/resource/Elrond>
+    a schema:Person ;
+
+    # Multilingual labels
+    rdfs:label "Elrond"@en ;
+    rdfs:label "Elrond"@fr ;
+    rdfs:label "Elrond"@es ;
+    rdfs:label "Elrond"@de ;
+
+    schema:name "Elrond"@en ;
+
+    schema:additionalType <https://yourkg.org/resource/Half-elven> ;
+    schema:additionalType "Half-elf"@en ;
+
+    schema:image "Tatyafinwe - Portrait of Elrond.jpg"@en ;
+    schema:jobTitle "Lord of Rivendell"@en ;
+
+    schema:location
+        <https://yourkg.org/resource/Aman>,
+        <https://yourkg.org/resource/Lindon>,
+        <https://yourkg.org/resource/Mouths_of_Sirion>,
+        <https://yourkg.org/resource/Rivendell> ;
+
+    schema:memberOf <https://yourkg.org/resource/White_Council> ;
+
+    schema:url <https://tolkiengateway.net/wiki/Elrond> ;
+
+    # External links / alignment
+    owl:sameAs <https://dbpedia.org/resource/Elrond> ;
+    owl:sameAs <https://www.wikidata.org/entity/Q191481> .
+
+### =====================
+### Rivendell (Place)
+### =====================
+
+<https://yourkg.org/resource/Rivendell>
+    rdfs:label "Rivendell"@en ;
+    rdfs:label "Fondcombe"@fr ;
+    rdfs:label "Rivendel"@es ;
+    owl:sameAs <https://dbpedia.org/resource/Rivendell> .
+
+### =====================
+### White Council (Organization)
+### =====================
+
+<https://yourkg.org/resource/White_Council>
+    rdfs:label "White Council"@en ;
+    rdfs:label "Conseil Blanc"@fr ;
+    owl:sameAs <https://dbpedia.org/resource/White_Council> .
+
